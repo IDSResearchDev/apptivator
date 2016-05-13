@@ -6,23 +6,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Apptivator.BaseClass;
-
+using System.IO;
+using System.Diagnostics;
+using System.Windows;
 
 namespace Apptivator.ViewModel
 {
-    class ActivationViewModel : BindableBase
+    public class ActivationViewModel : BindableBase
     {
+        public string ActivationFile { get; set; }
+        public string ApplicationPath { get; set; }        
 
-        private string _macAddress;
+        public Rnd.Common.Models.Activator Activator { get; set; } = new Rnd.Common.Models.Activator();
 
-        public string MacAddress
+        private string _activationCode;
+
+        public string ActivationCode
         {
-            get { return _macAddress; }
-            set { SetProperty(ref _macAddress, value); }
+            get { return _activationCode; }
+            set { SetProperty(ref _activationCode, value); }
 
         }
-
-        
 
         #region ICommands
 
@@ -30,25 +34,33 @@ namespace Apptivator.ViewModel
         {
             get
             {
-                return new DelegateCommand(() => 
+                return new DelegateCommand(() =>
                 {
-                    MacAddress = GetMac();
+                    // Validation
+                    // web request here
+                    try
+                    {                       
+                        var util = new Rnd.Common.Utilities();
+                        Activator.MacAddress = util.GetPhysicalAddress();
+                        //Activator.ActivationCode = ActivationCode;
+                        util.SerializeBinFile(ActivationFile, Activator);
+
+                        Process.Start(ApplicationPath);
+                        App.Current.Shutdown();
+                    }
+                    catch (Exception e)
+                    {
+
+                        MessageBox.Show(e.GetBaseException().ToString());
+                    }
+
+
+
                 });
             }
         }
 
-        private string GetMac()
-        {
-
-            var networks = NetworkInterface.GetAllNetworkInterfaces();
-            var activeNetworks = networks.Where(ni => ni.OperationalStatus == OperationalStatus.Up && ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet);
-            var nonVirtual = activeNetworks.Where(s => !s.Description.Contains("Virtual") && !s.Name.Contains("vEthernet"));
-            return nonVirtual.First().GetPhysicalAddress().ToString();
-                //string.Join(":",nonVirtual.First().GetPhysicalAddress().GetAddressBytes().Select(s => s.ToString("X2").ToArray())).ToString();
-        }
-
-
         #endregion
     }
-    
+
 }

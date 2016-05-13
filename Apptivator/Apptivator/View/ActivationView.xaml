@@ -7,11 +7,17 @@
         Title="ActivationView"
         Width="527.349"
         Height="134.029"
+        xmlns:viewModel="clr-namespace:Apptivator.ViewModel"
         local:ViewModelLocator.AutoViewModel="True"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
-    <Grid>
+
+    <Window.DataContext>
+        <viewModel:ActivationViewModel x:Name="vm"/>
+    </Window.DataContext>
+
+        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -41,7 +47,7 @@
                  HorizontalAlignment="Left"
                  HorizontalContentAlignment="Left"
                  VerticalContentAlignment="Center"
-                 Text="{Binding MacAddress}" />
+                 Text="{Binding ActivationCode}" />
         <!--</StackPanel>-->
         <Button Grid.Row="3"
                 Grid.Column="2"

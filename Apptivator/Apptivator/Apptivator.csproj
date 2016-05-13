@@ -34,17 +34,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>Apptivator.App</StartupObject>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Rnd.Common, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dlls\Rnd.Common.dll</HintPath>
+    <Reference Include="Rnd.Common">
+      <HintPath>References\Rnd.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Rnd.Theme.Bootstrap, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dlls\Rnd.Theme.Bootstrap.dll</HintPath>
+    <Reference Include="Rnd.Theme.Bootstrap">
+      <HintPath>References\Rnd.Theme.Bootstrap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -66,21 +61,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BaseClass\BindableBase.cs" />
-    <Compile Include="BaseClass\DelegateCommand.cs" />
-    <Compile Include="BaseClass\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\ActivationViewModel.cs" />
-    <Compile Include="View\ActivationView.xaml.cs">
-      <DependentUpon>ActivationView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Activate.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\ActivationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="BaseClass\BindableBase.cs" />
+    <Compile Include="BaseClass\DelegateCommand.cs" />
+    <Compile Include="BaseClass\ViewModelLocator.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="ViewModel\ActivationViewModel.cs" />
+    <Compile Include="View\ActivationView.xaml.cs">
+      <DependentUpon>ActivationView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -113,7 +106,12 @@
     <Content Include="Dlls\Rnd.Common.dll" />
     <Content Include="Dlls\Rnd.Theme.Bootstrap.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="View\ActivationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
