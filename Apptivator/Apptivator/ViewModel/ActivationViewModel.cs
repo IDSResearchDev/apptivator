@@ -61,16 +61,25 @@ namespace Apptivator.ViewModel
 
                     var response = await requeststate.Response(weburi);
 
-                    if (response.ToLower().Equals("verified"))
+                   
+                    switch (response.ToLower())
                     {
-                        util.SerializeBinFile(ActivationFile, Activator);
-                        Process.Start(ApplicationPath);
-                        App.Current.Shutdown();
+                        case "alreadyactivated":
+                        case "verified":
+                            util.SerializeBinFile(ActivationFile, Activator);
+                            Process.Start(ApplicationPath);
+                            App.Current.Shutdown();
+                            break;
+                        case "failed":
+                            MessageBox.Show("Activation code is invalid.", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                            break;
+                        case "allactivated":
+                            MessageBox.Show("Number of license already consumed.", "All activated", MessageBoxButton.OK, MessageBoxImage.Error);
+                            break;
+                        default: 
+                            break;
                     }
-                    else
-                    {
-                        MessageBox.Show("Activation code is invalid.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+
                 });
             }
         }
