@@ -56,7 +56,7 @@ namespace Apptivator.ViewModel
                     var util = new Rnd.Common.Utilities();
                     Activator.MacAddress = util.GetPhysicalAddress();
 
-                    var weburi = $"http://webservice.intdesignservices.com/codeservice.php?code={ActivationCode}&mac={Activator.MacAddress}&name=OrganizationName";
+                    var weburi = $"http://webservice.intdesignservices.com/codeservice.php?code={ActivationCode}&mac={Activator.MacAddress}&name={OrganizationName}";
                     var requeststate = new RequestState();
 
                     var response = await requeststate.Response(weburi);
