@@ -24,7 +24,6 @@ namespace Apptivator
             {
                 App.Current.Shutdown();
             }
-            
         }
     }
 }

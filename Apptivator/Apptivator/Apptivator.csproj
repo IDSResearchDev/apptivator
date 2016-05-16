@@ -69,7 +69,7 @@
     <Compile Include="BaseClass\BindableBase.cs" />
     <Compile Include="BaseClass\DelegateCommand.cs" />
     <Compile Include="BaseClass\ViewModelLocator.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="RequestState.cs" />
     <Compile Include="ViewModel\ActivationViewModel.cs" />
     <Compile Include="View\ActivationView.xaml.cs">
       <DependentUpon>ActivationView.xaml</DependentUpon>
