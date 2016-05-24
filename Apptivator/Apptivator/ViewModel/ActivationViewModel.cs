@@ -53,32 +53,40 @@ namespace Apptivator.ViewModel
                     if (String.IsNullOrEmpty(ActivationCode) || String.IsNullOrEmpty(ActivationCode)) return;
                     if (String.IsNullOrEmpty(OrganizationName) || String.IsNullOrEmpty(OrganizationName)) return;
 
-                    var util = new Rnd.Common.Utilities();
-                    Activator.MacAddress = util.GetPhysicalAddress();
-
-                    var weburi = $"http://webservice.intdesignservices.com/codeservice.php?code={ActivationCode}&mac={Activator.MacAddress}&name={OrganizationName}";
-                    var requeststate = new RequestState();
-
-                    var response = await requeststate.Response(weburi);
-
-                   
-                    switch (response.ToLower())
+                    try
                     {
-                        case "alreadyactivated":
-                        case "verified":
-                            util.SerializeBinFile(ActivationFile, Activator);
-                            Process.Start(ApplicationPath);
-                            App.Current.Shutdown();
-                            break;
-                        case "failed":
-                            MessageBox.Show("Activation code is invalid.", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-                            break;
-                        case "allactivated":
-                            MessageBox.Show("Number of license already consumed.", "All activated", MessageBoxButton.OK, MessageBoxImage.Error);
-                            break;
-                        default: 
-                            break;
+                        var util = new Rnd.Common.Utilities();
+                        Activator.MacAddress = util.GetPhysicalAddress();
+
+                        var weburi = $"http://webservice.intdesignservices.com/codeservice.php?code={ActivationCode}&mac={Activator.MacAddress}&name={OrganizationName}";
+                        var requeststate = new RequestState();
+
+                        var response = await requeststate.Response(weburi);
+
+
+                        switch (response.ToLower())
+                        {
+                            case "alreadyactivated":
+                            case "verified":
+                                util.SerializeBinFile(ActivationFile, Activator);
+                                Process.Start(ApplicationPath);
+                                App.Current.Shutdown();
+                                break;
+                            case "failed":
+                                MessageBox.Show("Activation code is invalid.", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                                break;
+                            case "allactivated":
+                                MessageBox.Show("Number of license already consumed.", "All activated", MessageBoxButton.OK, MessageBoxImage.Error);
+                                break;
+                            default:
+                                break;
+                        }
                     }
+                    catch (Exception x)
+                    {
+                        MessageBox.Show(x.Message, "Unexpected Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    
 
                 });
             }
