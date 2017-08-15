@@ -33,7 +33,7 @@ namespace Apptivator
             WebRequest myWebRequest = WebRequest.Create(weburi);
 
             // Send the 'WebRequest' and wait for response.
-            WebResponse myWebResponse = await myWebRequest.GetResponseAsync();//.GetResponse();
+            WebResponse myWebResponse = await myWebRequest.GetResponseAsync();
 
             // Obtain a 'Stream' object associated with the response object.
             Stream ReceiveStream = myWebResponse.GetResponseStream();
@@ -47,7 +47,6 @@ namespace Apptivator
 
             // Read 256 charcters at a time.    
             int count = readStream.Read(read, 0, 256);
-            //Console.WriteLine("HTML...\r\n");
             String str = "";
             while (count > 0)
             {

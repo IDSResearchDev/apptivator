@@ -17,7 +17,8 @@ namespace Apptivator.ViewModel
     public class ActivationViewModel : BindableBase, IDataErrorInfo
     {
         public string ActivationFile { get; set; }
-        public string ApplicationPath { get; set; }        
+        public string ApplicationPath { get; set; }
+        public string ActivationUrl { get; set; }
 
         public Rnd.Common.Models.Activator Activator { get; set; } = new Rnd.Common.Models.Activator();
 
@@ -58,7 +59,13 @@ namespace Apptivator.ViewModel
                         var util = new Rnd.Common.Utilities();
                         Activator.MacAddress = util.GetPhysicalAddress();
 
+                        // Connection Creator Activation URL link (for existing)
                         var weburi = $"http://webservice.intdesignservices.com/codeservice.php?code={ActivationCode}&mac={Activator.MacAddress}&name={OrganizationName}";
+
+                        
+                        if(!string.IsNullOrEmpty(ActivationUrl))
+                        { weburi = $"{ActivationUrl}codeservice.php?code={ActivationCode}&mac={Activator.MacAddress}&name={OrganizationName}"; }
+
                         var requeststate = new RequestState();
 
                         var response = await requeststate.Response(weburi);
@@ -73,10 +80,10 @@ namespace Apptivator.ViewModel
                                 App.Current.Shutdown();
                                 break;
                             case "failed":
-                                MessageBox.Show("Activation code is invalid.", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show(this.GetCurrentWindow(),"Activation code is invalid.", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
                                 break;
                             case "allactivated":
-                                MessageBox.Show("Number of license already consumed.", "All activated", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show(this.GetCurrentWindow(), "Number of license already consumed.", "All activated", MessageBoxButton.OK, MessageBoxImage.Error);
                                 break;
                             default:
                                 break;
@@ -84,7 +91,7 @@ namespace Apptivator.ViewModel
                     }
                     catch (Exception x)
                     {
-                        MessageBox.Show(x.Message, "Unexpected Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(this.GetCurrentWindow(), x.Message, "Unexpected Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     
 

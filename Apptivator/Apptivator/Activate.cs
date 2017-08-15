@@ -18,6 +18,8 @@ namespace Apptivator
 
                 view.vm.ActivationFile = e.Args[0].Replace(e.Args[2], " ");
                 view.vm.ApplicationPath = e.Args[1].Replace(e.Args[2], " ");
+                if (e.Args.Length >= 4)
+                { view.vm.ActivationUrl = e.Args[3]; }
                 view.Show();
             }
             else
